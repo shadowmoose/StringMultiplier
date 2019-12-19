@@ -1,5 +1,5 @@
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -13,52 +13,17 @@ public class Main {
 
     public static void main(String[] args) {
         mult = new StringMultiplier();
-        List<String> argz = Arrays.asList(args);
-        if(argz.isEmpty()){
-            System.err.println("Please provide the move filepath as the first parameter.");
-            return;
-        }
-
-        Pattern pattern = Pattern.compile("(\\d+)");
-
         try {
-            BufferedReader br = new BufferedReader(new FileReader(argz.iterator().next()));
-            String line;
-
-            while((line = br.readLine()) != null) {
-                line = line.replaceAll("\\s", "");
-                Matcher matcher = pattern.matcher(line);
-                if (matcher.find()) {
-                    checkNumber(matcher.group().trim());
-                }
-                counter.append("i");
-            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Enter a number:");
+            String fn = br.readLine();
+            System.out.print("Enter another number:");
+            String sn = br.readLine();
+            
+            System.out.println("Multiplied: " + mult.multiply(fn, sn));
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println("Error reading the given file!");
+            System.err.println("Error reading the input!");
         }
     }
-
-
-    private static void checkNumber(String number){
-        String person = mult.sequenceToNumber(counter.toString());
-        if(mult.isZero(number)){
-            System.out.println("Person "+person+": You should take some melatonin.");
-            return;
-        }
-        number = number.replaceAll("^"+mult.zero+"+", "");
-        List<String> missing = mult.getTable();
-        StringBuilder counter = new StringBuilder("i");
-        String product = "";
-        while(!missing.isEmpty()){
-            product = counter.toString().equals("i")?
-                    number : mult.multiply(mult.sequenceToNumber(counter.toString()), number);
-            for(String c : product.split("")) {
-                missing.remove(c);
-            }
-            counter.append("i");
-        }
-        System.out.println("Person "+person+": "+product);
-    }
-
 }
