@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 public class Main {
 
     private static StringMultiplier mult = null;
-    private static StringBuilder counter = new StringBuilder("i");
 
     public static void main(String[] args) {
         mult = new StringMultiplier();
